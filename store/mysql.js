@@ -53,15 +53,7 @@ async function get(table, id) {
   });
 };
 
-function upsert(table, data) {
-  if (data && data.id) {
-    return update(table, data);
-  } else {
-    return insert(table, data);
-  }
-}
-
-async function insert(table, data) {
+async function upsert(table, data) {
   return new Promise((resolve, reject) => {
     connection.query(`INSERT INTO ${table} SET ? ON DUPLICATE KEY UPDATE ?`, [data, data], (err, result) => {
       if (err) return reject(err);
@@ -70,18 +62,8 @@ async function insert(table, data) {
   });
 };
 
-async function update(table, data) {
-  return new Promise((resolve, reject) => {
-    connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, data.id], (err, result) => {
-      if (err) return reject(error);
-      resolve(result);
-    });
-  });
-};
-
 module.exports = {
   list,
   get,
-  upsert,
-  insert
+  upsert
 };

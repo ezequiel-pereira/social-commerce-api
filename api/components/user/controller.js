@@ -1,7 +1,6 @@
-const store = require("../../../store/mysql");
 const { nanoid } = require("nanoid");
 
-const TABLA = "user";
+const TABLE = "user";
 
 module.exports = function (injectedStore) {
   let store = injectedStore;
@@ -11,11 +10,11 @@ module.exports = function (injectedStore) {
   }
 
   function list() {
-    return store.list(TABLA);
+    return store.list(TABLE);
   }
 
   function get(id) {
-    return store.get(TABLA, id);
+    return store.get(TABLE, id);
   }
 
   function upsert(body) {
@@ -30,7 +29,7 @@ module.exports = function (injectedStore) {
       user.id = nanoid();
     }
 
-    return store.insert(TABLA, user);
+    return store.upsert(TABLE, user);
   }
 
   return {
