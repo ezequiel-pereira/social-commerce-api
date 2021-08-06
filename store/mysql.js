@@ -62,8 +62,19 @@ async function upsert(table, data) {
   });
 };
 
+async function query(table, query) {
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT * FROM ${table} WHERE ?`, query, (err, result) => {
+      if (err) return reject(err);
+      result = JSON.parse(JSON.stringify(result[0]));
+      resolve(result);
+    });
+  });
+};
+
 module.exports = {
   list,
   get,
-  upsert
+  upsert,
+  query
 };
