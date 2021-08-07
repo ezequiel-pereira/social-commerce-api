@@ -12,11 +12,14 @@ module.exports = function (injectedStore) {
 
   async function login(username, password) {
     let data = await store.query(TABLE, { username: username });
-    
+    let dataSign = {
+      id: data.id,
+      username: data.username
+    }
     return bcrypt.compare(password, data.password)
       .then(result => {
         if (result) {
-          return auth.sign(data)
+          return auth.sign(dataSign)
         } else {
             throw new Error('Bad credentials');
         }

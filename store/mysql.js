@@ -28,6 +28,7 @@ function handleConnection() {
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleConnection();
     } else {
+      console.log('db error');
         throw err;
     }
   });
@@ -66,8 +67,7 @@ async function query(table, query) {
   return new Promise((resolve, reject) => {
     connection.query(`SELECT * FROM ${table} WHERE ?`, query, (err, result) => {
       if (err) return reject(err);
-      result = JSON.parse(JSON.stringify(result[0]));
-      resolve(result);
+      resolve(result[0]);
     });
   });
 };

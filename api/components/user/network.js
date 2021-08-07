@@ -16,9 +16,7 @@ function list(req, res) {
     .then((list) => {
       response.success(req, res, list, 200);
     })
-    .catch((err) => {
-      response.error(req, res, err, 500);
-    });
+    .catch(next);
 };
 
 function get(req, res) {
@@ -26,9 +24,7 @@ function get(req, res) {
     .then((user) => {
       response.success(req, res, user, 200);
     })
-    .catch((err) => {
-      response.error(req, res, err, 500);
-    });
+    .catch(next);
 };
 
 function upsert(req, res, next) {
@@ -36,9 +32,7 @@ function upsert(req, res, next) {
     .then((user) => {
       response.success(req, res, user, 201);
     })
-    .catch((err) => {
-      response.error(req, res, err, 500);
-    });
+    .catch(next);
 };
 
 module.exports = router;
