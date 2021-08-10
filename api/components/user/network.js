@@ -11,7 +11,7 @@ router.get('/:id', get);
 router.post('/', upsert);
 router.put('/', secure('update'), upsert);
 
-function list(req, res) {
+function list(req, res, next) {
   Controller.list()
     .then((list) => {
       response.success(req, res, list, 200);
@@ -19,7 +19,7 @@ function list(req, res) {
     .catch(next);
 };
 
-function get(req, res) {
+function get(req, res, next) {
   Controller.get(req.params.id)
     .then((user) => {
       response.success(req, res, user, 200);
