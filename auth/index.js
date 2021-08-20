@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { use } = require('../api/components/user/network');
 const config = require('../config');
 const error = require('../utils/error');
 
@@ -14,6 +15,10 @@ const check = {
     if (decoded.id != owner) {
       throw new Error('Unauthorized');
     }
+  },
+  auth: function(req) {
+    let user = decodeHeader(req);
+    return user.id;
   },
 }
 

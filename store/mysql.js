@@ -39,7 +39,7 @@ handleConnection();
 async function list(table) {
   return new Promise((resolve, reject) => {
     connection.query(`SELECT * FROM ${table}`, (err, data) => {
-      if (err) return reject(error);
+      if (err) return reject(err);
       resolve(data);
     });
   });
@@ -47,8 +47,8 @@ async function list(table) {
 
 async function get(table, id) {
   return new Promise((resolve, reject) => {
-    connection.query(`SELECT * FROM ${table} WHERE id=${id}`, (err, data) => {
-      if (err) return reject(error);
+    connection.query(`SELECT * FROM ${table} WHERE id=?`, id, (err, data) => {
+      if (err) return reject(err);
       resolve(data);
     });
   });

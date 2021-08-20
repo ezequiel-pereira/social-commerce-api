@@ -3,6 +3,8 @@ const express = require('express');
 const config = require('../config.js');
 const user = require('./components/user/network');
 const auth = require('./components/auth/network');
+const shop = require('./components/shop/network');
+
 const error = require('../network/error');
 
 const app = express();
@@ -12,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/user', user);
 app.use('/api/auth', auth);
+app.use('/api/shop', shop);
 
 app.use(error);
 
