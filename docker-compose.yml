@@ -25,6 +25,8 @@ services:
       - "3306:3306"
     volumes:
       - ./db.sql:/docker-entrypoint-initdb.d/db.sql
+    cap_add:
+      - SYS_NICE
   phpmyadmin:
     image: phpmyadmin
     depends_on:
