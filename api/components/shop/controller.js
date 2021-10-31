@@ -19,7 +19,8 @@ module.exports = function (injectedStore) {
 
   async function upsert(body) {
     let shop = {
-      name: body.name
+      name: body.name,
+      user_id: body.user_id
     };
     
     if (body.id) {
@@ -37,9 +38,14 @@ module.exports = function (injectedStore) {
     return store.upsert(TABLE, shop);
   }
 
+  async function getUserShop(userId) {
+    return await store.query(TABLE, {user_id: userId});
+  }
+
   return {
     list,
     get,
     upsert,
+    getUserShop
   };
 };

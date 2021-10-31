@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.get('/', list);
 router.get('/:id', get);
+router.get('/user/:id', getUserShop);
 router.post('/', upsert);
 router.put('/', secure('create'), upsert);
 
@@ -21,6 +22,14 @@ function list(req, res, next) {
 
 function get(req, res, next) {
   Controller.get(req.params.id)
+    .then((user) => {
+      response.success(req, res, user, 200);
+    })
+    .catch(next);
+};
+
+function getUserShop(req, res, next) {
+  Controller.getUserShop(req.params.id)
     .then((user) => {
       response.success(req, res, user, 200);
     })

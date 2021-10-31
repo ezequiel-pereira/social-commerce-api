@@ -43,6 +43,6 @@ module.exports = function (injectedStore) {
   return {
     list,
     get,
-    upsert,
+    upsert
   };
 };
