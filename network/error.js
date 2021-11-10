@@ -5,7 +5,6 @@ function error(err, req, res, next) {
 
   let message = err.message || 'Internal server error';
   let status = err.statusCode || 500;
-  console.log('network/error');
   response.error(req, res, message, status);
 }
 
