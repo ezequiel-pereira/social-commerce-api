@@ -1,4 +1,7 @@
 const express = require('express');
+const multer = require('multer');
+const inMemoryStorage = multer.memoryStorage();
+const uploadStrategy = multer({ storage: inMemoryStorage }).single('image');
 
 const secure = require('./secure');
 const response = require('../../../network/response');
@@ -8,7 +11,7 @@ const router = express.Router();
 
 router.get('/', list);
 router.get('/:id', get);
-router.post('/', upsert);
+router.post('/',uploadStrategy, upsert);
 router.put('/', secure('update'), upsert);
 
 function list(req, res, next) {
@@ -28,7 +31,7 @@ function get(req, res, next) {
 };
 
 function upsert(req, res, next) {
-  Controller.upsert(req.body)
+  Controller.upsert(req.body.user, req.file)
     .then((user) => {
       response.success(req, res, user, 201);
     })

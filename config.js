@@ -10,5 +10,10 @@ module.exports = {
   },
   jwt: {
     secret: process.env.JWT_SECRET || 'secret'
+  },
+  azure: {
+    storageConnectionString: process.env.AZURE_STORAGE_CONNECTION_STRING,
+    storageAccountAccessKey: process.env.AZURE_STORAGE_ACCOUNT_ACCESS_KEY,
+    storageAccountName: process.env.AZURE_STORAGE_ACCOUNT_NAME
   }
 };

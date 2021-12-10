@@ -12,6 +12,10 @@ services:
       MYSQL_USER: "root"
       MYSQL_PASSWORD: "root"
       MYSQL_DATABASE: "database"
+      AZURE_STORAGE_CONNECTION_STRING: "AZURE_STORAGE_CONNECTION_STRING"
+      AZURE_STORAGE_ACCOUNT_ACCESS_KEY: "AZURE_STORAGE_ACCOUNT_ACCESS_KEY"
+      AZURE_STORAGE_ACCOUNT_NAME: "AZURE_STORAGE_ACCOUNT_NAME"
+
     volumes:
       - .:/usr/src
       - /usr/src/node_modules

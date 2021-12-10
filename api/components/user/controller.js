@@ -1,4 +1,6 @@
 const { nanoid } = require("nanoid");
+const getStream = require('into-stream');
+const { uploadBlob } = require("../../../utils/blobStorage");
 const auth = require("../auth");
 
 const TABLE = "user";
@@ -15,25 +17,24 @@ module.exports = function (injectedStore) {
   }
 
   async function get(id) {
+    let user = await store.get(TABLE, id);
+    let addressId = user.address_id;
 
-    let user = await store.get(TABLE, id)
-    let addressId = user.address_id
-
-    if (addressId =! '') {
-      let address = await store.query('address', addressId)
-      user.address = address
+    if ((addressId = !"")) {
+      let address = await store.query("address", addressId);
+      user.address = address;
     }
-
-    return user
+    return user;
   }
 
-  async function upsert(body) {
+  async function upsert(bodyUser, file) {
+    let body = JSON.parse(bodyUser);
+
     let user = {
       username: body.username,
       first_name: body.first_name,
       last_name: body.last_name,
       email: body.email,
-      profile_picture: body.profile_picture
     };
 
     if (body.id) {
@@ -52,26 +53,32 @@ module.exports = function (injectedStore) {
       await auth.upsert({
         id: user.auth_id,
         username: user.username,
-        password: body.password
-      })
+        password: body.password,
+      });
     }
 
     if (body.address && body.address.id) {
-      user.address_id = body.address.id
-      await store.upsert('address', body.address)
+      user.address_id = body.address.id;
+      await store.upsert("address", body.address);
     } else if (body.address) {
-      let newAddress = body.address
-      newAddress.id = nanoid()
-      user.address_id = newAddress.id
-      await store.upsert('address', newAddress)
+      let newAddress = body.address;
+      newAddress.id = nanoid();
+      user.address_id = newAddress.id;
+      await store.upsert("address", newAddress);
     }
-    
+
+    if (file) {
+      const profilePictureId = nanoid();
+      const stream = getStream(file.buffer);
+
+      uploadBlob(TABLE, profilePictureId,stream);
+    }
     return store.upsert(TABLE, user);
   }
 
   return {
     list,
     get,
-    upsert
+    upsert,
   };
 };
